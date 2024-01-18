@@ -11,6 +11,7 @@ import useSignVerifyWithCrypto from "../hooks/use-sign-verify";
 
 import AccountDetailModal from "./account-detail-modal";
 import styles from "./styles/connect-wallet-button.module.scss";
+import { SwitchNetworkButton } from "./switch-network-button";
 import { WalletButton } from "./wallet-button";
 import { WalletModal } from "./wallet-modal";
 
@@ -54,12 +55,15 @@ export const ConnectWalletButton = ({
     <div className={styles.container}>
       {error && <div className={styles.errorMessage}>{error}</div>}
 
-      <WalletButton
-        disabled={isLoading || isFetchingNonce}
-        isLoading={isLoading || isFetchingNonce}
-        onClick={handleOpenModal}
-        text={address ? shortenString(address, 8) : text}
-      />
+      <div className={styles.wrapper}>
+        <WalletButton
+          disabled={isLoading || isFetchingNonce}
+          isLoading={isLoading || isFetchingNonce}
+          onClick={handleOpenModal}
+          text={address ? shortenString(address, 8) : text}
+        />
+        {isConnected && <SwitchNetworkButton />}
+      </div>
 
       <AnimatePresence>
         {isWalletModalOpen && (
