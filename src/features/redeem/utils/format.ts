@@ -49,7 +49,7 @@ export function getWETHFromCC({
   ) {
     return bnum(amount)
       .times(ccPrice)
-      .times(100)
+      .times(110)
       .div(wETHPrice)
       .div(discount)
       .toString();
