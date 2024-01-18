@@ -13,12 +13,12 @@ export function bnum(val: string | number | BigNumber): BigNumber {
 }
 
 export function formatRedeem({ data }: RedeemData) {
-  const claimStatus = data[0].result;
-  const cCCBalance = data[1].result;
-  const wETHBalance = data[2].result;
-  const ccPrice = data[3].result;
-  const wETHPrice = data[4].result;
-  const discount = data[5].result;
+  const claimStatus = data[0].result || 0;
+  const cCCBalance = data[1].result || 0;
+  const wETHBalance = data[2].result || 0;
+  const ccPrice = data[3].result || 0;
+  const wETHPrice = data[4].result || 0;
+  const discount = data[5].result || 0;
 
   return {
     claimStatus,

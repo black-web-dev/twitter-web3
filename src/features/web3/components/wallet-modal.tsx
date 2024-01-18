@@ -5,7 +5,7 @@ import { useConnect } from "wagmi";
 
 import { CloseIcon } from "@/assets/close-icon";
 
-import styles from "./styles/wallet-form.module.scss";
+import styles from "./styles/wallet-modal.module.scss";
 import { WalletButton } from "./wallet-button";
 
 export const WalletModal = ({ onClose }: { onClose: () => void }) => {
