@@ -32,7 +32,7 @@ export const ConnectWalletButton = ({
 
   const handleOpenModal = () => {
     if (address && type === "signin") {
-      onSignInWithCrypto();
+      onSignInWithCrypto({ redirect: true });
     } else {
       openWalletModal();
     }
@@ -41,7 +41,7 @@ export const ConnectWalletButton = ({
   useEffect(() => {
     if (isConnected && isWalletModalOpen && type === "signin") {
       closeWalletModal();
-      onSignInWithCrypto();
+      onSignInWithCrypto({ redirect: true });
     }
   }, [
     closeWalletModal,

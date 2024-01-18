@@ -85,7 +85,8 @@ model User {
   reputation_count   Float             @default(0)
   profile_banner_url String?
   profile_image_url  String?
-  publicAddress      String?           @unique // Added to enable crypto authentication
+  evm_address        String?           @unique // Added to enable crypto authentication
+  bech32_address     String?           @unique
   cryptoLoginNonce   CryptoLoginNonce?
   accounts           Account[]
   sessions           Session[]

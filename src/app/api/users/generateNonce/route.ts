@@ -3,6 +3,7 @@ import crypto from "crypto";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 
+import { convertToBothFormats } from "@/lib/address-converter";
 import { prisma } from "@/lib/prisma";
 
 // Generating a nonce is the first step of both registering and logging in.
@@ -14,26 +15,29 @@ import { prisma } from "@/lib/prisma";
 //  the nonce we send back, with that they prove that they are the owners
 //  of the public address they gave.
 export async function POST(request: Request) {
-  const { name, email, publicAddress } = (await request.json()) as {
+  const { name, email, evm_address } = (await request.json()) as {
     name: string;
     email: string;
-    publicAddress: string;
+    evm_address: string;
   };
 
   const useSchema = z
     .object({
-      publicAddress: z.string(),
+      evm_address: z.string(),
     })
     .strict();
 
-  const zod = useSchema.safeParse({ publicAddress });
+  const zod = useSchema.safeParse({ evm_address });
 
   if (!zod.success) {
     return NextResponse.json(zod.error, { status: 400 });
   }
 
+  const addresses = convertToBothFormats(evm_address, "cascadia");
+
   try {
-    const where = name && email ? { name, email } : { publicAddress };
+    const where =
+      name && email ? { name, email } : { evm_address: addresses.evmAddress };
 
     const user = await prisma.user.findUnique({ where });
 
@@ -53,7 +57,8 @@ export async function POST(request: Request) {
       where,
       create: {
         name,
-        publicAddress,
+        evm_address: addresses.evmAddress,
+        bech32_address: addresses.bech32Address,
         cryptoLoginNonce: {
           create: {
             nonce,
@@ -62,7 +67,8 @@ export async function POST(request: Request) {
         },
       },
       update: {
-        publicAddress,
+        evm_address: addresses.evmAddress,
+        bech32_address: addresses.bech32Address,
         cryptoLoginNonce: {
           upsert: {
             create: {

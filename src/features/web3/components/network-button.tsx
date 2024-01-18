@@ -26,9 +26,13 @@ export const NetworkButton = ({
       className={styles.container}
       disabled={disabled || isLoading}
     >
-      <div className={styles.header}>
-        {icon} {text}
-      </div>
+      {text ? (
+        <div className={styles.header}>
+          {icon} {text}
+        </div>
+      ) : (
+        <div className={styles.icon}>{icon}</div>
+      )}
       {isActive && (
         <div className={styles.isActive}>
           <CheckIcon />

@@ -3,16 +3,16 @@ import { SiweMessage } from "siwe";
 import { prisma } from "@/lib/prisma";
 
 export const crypto = {
-  id: "crypto",
+  id: "credentials",
   name: "Crypto Wallet Auth",
   credentials: {
     message: { label: "Message", type: "text" },
-    publicAddress: { label: "Public Address", type: "text" },
+    evm_address: { label: "Wallet Address", type: "text" },
     signedNonce: { label: "Signed Nonce", type: "text" },
   },
   async authorize(
     credentials:
-      | Record<"message" | "publicAddress" | "signedNonce", string>
+      | Record<"message" | "evm_address" | "signedNonce", string>
       | undefined,
     // req: Pick<RequestInternal, "body" | "headers" | "method" | "query">,
   ) {
@@ -20,7 +20,7 @@ export const crypto = {
 
     // Get user from database with their generated nonce
     const user = await prisma.user.findUnique({
-      where: { publicAddress: credentials.publicAddress },
+      where: { evm_address: credentials.evm_address },
       include: { cryptoLoginNonce: true },
     });
 

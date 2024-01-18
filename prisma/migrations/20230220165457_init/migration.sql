@@ -69,7 +69,8 @@ CREATE TABLE "User" (
     "profile_banner_url" TEXT,
     "profile_image_url" TEXT,
     "pinned_tweet_id" TEXT,
-    "publicAddress" TEXT
+    "evm_address" TEXT,
+    "bech32_address" TEXT
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
@@ -262,6 +263,12 @@ CREATE UNIQUE INDEX "User_twitter_username_key" ON "User"("twitter_username");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "User_twitter_email_key" ON "User"("twitter_email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_evm_address_key" ON "User"("evm_address");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_bech32_address_key" ON "User"("bech32_address");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Hashtag_hashtag_key" ON "Hashtag"("hashtag");

@@ -129,7 +129,7 @@ export const authOptions: AuthOptions = {
         session.user.role = token?.role;
         session.user.username = token?.screen_name;
         session.user.provider = token?.provider;
-        session.user.publicAddress = token?.publicAddress;
+        session.user.evm_address = token?.evm_address;
         session.user.profile_image_url = token?.profile_image_url;
       }
 
@@ -157,7 +157,7 @@ export const authOptions: AuthOptions = {
             role: dbUser.role,
             username: dbUser.google_username,
             provider,
-            publicAddress: dbUser.publicAddress,
+            evm_address: dbUser.evm_address,
             profile_image_url: dbUser.profile_image_url,
           };
         case "discord":
@@ -168,7 +168,7 @@ export const authOptions: AuthOptions = {
             role: dbUser.role,
             username: dbUser.discord_username,
             provider,
-            publicAddress: dbUser.publicAddress,
+            evm_address: dbUser.evm_address,
             profile_image_url: dbUser.profile_image_url,
           };
         case "twitter":
@@ -179,7 +179,7 @@ export const authOptions: AuthOptions = {
             role: dbUser.role,
             username: dbUser.twitter_username,
             provider,
-            publicAddress: dbUser.publicAddress,
+            evm_address: dbUser.evm_address,
             profile_image_url: dbUser.profile_image_url,
           };
         default:
@@ -190,7 +190,7 @@ export const authOptions: AuthOptions = {
             role: dbUser.role,
             username: dbUser.screen_name,
             provider: account?.provider || token?.provider,
-            publicAddress: dbUser.publicAddress,
+            evm_address: dbUser.evm_address,
             profile_image_url: dbUser.profile_image_url,
           };
       }
