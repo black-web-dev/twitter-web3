@@ -28,7 +28,7 @@ const AccountDetailModal = ({
   const { isFetchingNonce, error, isLoading, onSignInWithCrypto } =
     useSignVerifyWithCrypto();
 
-  const isExistedAddress = session?.user?.publicAddress === address;
+  const isExistedAddress = session?.user?.evm_address === address;
 
   if (!isConnected) return <div>Please connect wallet</div>;
 
@@ -70,14 +70,14 @@ const AccountDetailModal = ({
             {numeral(balance.data?.formatted || 0).format("0,0.[00]")} CC
           </div>
 
-          {session?.user?.publicAddress !== address && (
+          {session?.user?.evm_address !== address && (
             <div className={styles.sign}>
               <div className={styles.warning}>
                 Please verify and sign with wallet address
               </div>
               <WalletButton
                 isLoading={isLoading || isFetchingNonce}
-                onClick={() => onSignInWithCrypto()}
+                onClick={() => onSignInWithCrypto({ redirect: false })}
                 text={
                   isLoading || isFetchingNonce
                     ? "Please wait..."
@@ -86,7 +86,7 @@ const AccountDetailModal = ({
               />
             </div>
           )}
-          {session?.user?.publicAddress && !isExistedAddress && (
+          {session?.user?.evm_address && !isExistedAddress && (
             <div className={styles.errorMessage}>
               Please switch verified wallet address
             </div>

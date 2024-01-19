@@ -9,6 +9,7 @@ import { Avatar, UserName, UserScreenName } from "@/features/profile";
 
 import { DiscordLogo } from "../assets/discord-logo";
 import { GoogleLogo } from "../assets/google-logo";
+import { MetamaskLogo } from "../assets/metamask-logo";
 import { TwitterLogo } from "../assets/twitter-logo";
 
 import { SessionOwnerModal } from "./session-owner-modal";
@@ -52,6 +53,7 @@ export const SessionOwnerButton = () => {
           {session?.user.provider === "google" && <GoogleLogo />}
           {session?.user.provider === "discord" && <DiscordLogo />}
           {session?.user.provider === "twitter" && <TwitterLogo />}
+          {session?.user.provider === "crypto" && <MetamaskLogo />}
         </div>
       </button>
 
