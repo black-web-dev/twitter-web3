@@ -62,7 +62,7 @@ export const ConnectWalletButton = ({
           onClick={handleOpenModal}
           text={address ? shortenString(address, 8) : text}
         />
-        {isConnected && <SwitchNetworkButton />}
+        {isConnected && type !== "signin" && <SwitchNetworkButton />}
       </div>
 
       <AnimatePresence>

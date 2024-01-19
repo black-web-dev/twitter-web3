@@ -3,7 +3,7 @@ import { SiweMessage } from "siwe";
 import { prisma } from "@/lib/prisma";
 
 export const crypto = {
-  id: "credentials",
+  id: "crypto",
   name: "Crypto Wallet Auth",
   credentials: {
     message: { label: "Message", type: "text" },

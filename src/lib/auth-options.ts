@@ -29,7 +29,7 @@ export const authOptions: AuthOptions = {
       const { account, user, profile } = params;
 
       if (account && account.provider === "crypto") {
-        return "/";
+        return true;
       }
 
       const currentSession = await getServerSession(authOptions);
@@ -136,13 +136,12 @@ export const authOptions: AuthOptions = {
       return session;
     },
 
-    async jwt({ token, user, account }) {
+    async jwt({ token, account }) {
       const dbUser = await prisma.user.findFirst({
         where: { email: token?.email },
       });
 
       if (!dbUser) {
-        token.id = user?.id;
         return token;
       }
 

@@ -24,6 +24,7 @@ export default function useSignVerifyWithCrypto() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
+            id: session?.user.id || "",
             name: session?.user?.name || "",
             email: session?.user?.email || "",
             evm_address: address,
@@ -53,7 +54,7 @@ export default function useSignVerifyWithCrypto() {
         });
 
         // Use NextAuth to sign in with our address and the nonce
-        await signIn("credentials", {
+        await signIn("crypto", {
           message: JSON.stringify(message),
           evm_address: address,
           signedNonce,
@@ -70,7 +71,13 @@ export default function useSignVerifyWithCrypto() {
         getSession();
       }
     },
-    [address, session?.user?.email, session?.user?.name, signMessageAsync],
+    [
+      address,
+      session?.user?.email,
+      session?.user.id,
+      session?.user?.name,
+      signMessageAsync,
+    ],
   );
 
   return {

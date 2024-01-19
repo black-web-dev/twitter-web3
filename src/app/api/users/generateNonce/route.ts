@@ -15,7 +15,8 @@ import { prisma } from "@/lib/prisma";
 //  the nonce we send back, with that they prove that they are the owners
 //  of the public address they gave.
 export async function POST(request: Request) {
-  const { name, email, evm_address } = (await request.json()) as {
+  const { id, name, email, evm_address } = (await request.json()) as {
+    id: string;
     name: string;
     email: string;
     evm_address: string;
@@ -37,12 +38,14 @@ export async function POST(request: Request) {
 
   try {
     const where =
-      name && email ? { name, email } : { evm_address: addresses.evmAddress };
+      id && name && email
+        ? { id, name }
+        : { evm_address: addresses.evmAddress };
 
     const user = await prisma.user.findUnique({ where });
 
     if (!user)
-      return NextResponse.json("Unregisterd wallet address", { status: 402 });
+      return NextResponse.json("Unregistered wallet address", { status: 402 });
 
     // Note: this nonce is displayed in the user's wallet for them to sign
     //  you can use any other representation of the nonce that you want
