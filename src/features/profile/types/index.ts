@@ -7,7 +7,6 @@ export interface IUser extends User {
   tweets: ITweet[];
   followers: Follower[];
   following: Follower[];
-  transactions: ITransaction[];
   likes: ILike[];
   bookmarks: IBookmark[];
   reputations: IReputation[];
@@ -15,7 +14,6 @@ export interface IUser extends User {
   _count?: {
     followers?: number;
     following?: number;
-    transactions?: number;
     tweets?: number;
     likes?: number;
   };
@@ -51,4 +49,9 @@ export interface IReputation extends Reputation {
 
 export interface ITransaction extends Transaction {
   user: IUser;
+}
+
+export interface IBuyingInfo {
+  price: number;
+  balance: number;
 }
