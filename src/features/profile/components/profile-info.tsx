@@ -16,8 +16,9 @@ import { FollowButton } from "@/components/elements/follow-button";
 import { Modal } from "@/components/elements/modal";
 
 import { WebsiteIcon } from "../assets/website-icon";
+import { useGetTransactions } from "../hooks/use-get-transactions";
 import { IUser } from "../types";
-import { following, buying, getAmount } from "../utils/following";
+import { following, buying } from "../utils/following";
 
 import { EditDetailModal } from "./edit-detail-modal";
 import { EditProfileModal } from "./edit-profile-modal";
@@ -50,8 +51,13 @@ export const ProfileInfo = ({ user, id }: { user: IUser; id: string }) => {
     session_owner_id: session?.user?.id,
   });
 
-  const amount = getAmount({ user: user });
+  const { data } = useGetTransactions({
+    user_id: user.id,
+    session_owner_id: session?.user?.id,
+  });
 
+  const buyingInfo = data;
+  console.log("hrch", buyingInfo);
   const saveToLocalStorage = () => {
     if (typeof window !== "undefined") {
       window.localStorage.setItem("userReputation", "userReputation");
@@ -171,7 +177,7 @@ export const ProfileInfo = ({ user, id }: { user: IUser; id: string }) => {
                 user_id={user?.id}
                 session_owner_id={session?.user?.id}
                 isBuying={isBuying}
-                amount={amount}
+                amount={buyingInfo?.price}
                 username={user?.email?.split("@")[0]}
               />
             </div>

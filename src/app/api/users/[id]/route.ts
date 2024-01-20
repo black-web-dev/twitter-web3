@@ -45,14 +45,12 @@ export async function GET(
         verified: true,
         followers: true,
         following: true,
-        transactions: true,
         reputations: true,
 
         _count: {
           select: {
             followers: true,
             following: true,
-            transactions: true,
           },
         },
       },

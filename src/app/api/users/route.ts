@@ -44,7 +44,6 @@ export async function GET(request: Request) {
         following: true,
         reputations: true,
         followers: true,
-        transactions: true,
       },
     });
 

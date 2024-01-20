@@ -97,7 +97,6 @@ model User {
   votes                 Vote[]
   followers             Follower[]        @relation("follower")
   following             Follower[]        @relation("followed")
-  transactions          Transaction[]
   retweets              Retweet[]
   bookmarks             Bookmark[]
   sent_messages         Message[]         @relation("receiver")
@@ -118,7 +117,6 @@ model Follower {
 
 model Transaction {
   id          String   @id @default(cuid())
-  user        User     @relation(fields: [follower_id], references: [id])
   user_id     String
   follower_id String
   balance     Float

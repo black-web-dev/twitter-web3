@@ -25,20 +25,3 @@ export const buying = ({
     ? user?.following?.some((follower) => follower.id === session_owner_id)
     : false;
 };
-
-export const getAmount = ({ user }: { user: IUser | undefined }): number => {
-  let price = 10;
-  if (user) {
-    const filteredTxs = user?.transactions?.filter(
-      (transaction) => transaction.description === "Buying",
-    );
-
-    if (filteredTxs) {
-      for (let i = 0; i < filteredTxs.length; i++) {
-        price *= 2;
-      }
-    }
-  }
-
-  return price;
-};

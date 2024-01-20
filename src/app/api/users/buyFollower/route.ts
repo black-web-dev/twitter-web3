@@ -8,35 +8,52 @@ const initialUserBalance = 100;
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const user_id = searchParams.get("user_id") || undefined;
+  const session_owner_id = searchParams.get("session_owner_id") || undefined;
   const type = searchParams.get("type") || undefined;
 
-  const userIdSchema = z.string().cuid().optional();
-  const zod = userIdSchema.safeParse(user_id);
+  const transactionIdSchema = z
+    .object({
+      session_owner_id: z.string().cuid(),
+      user_id: z.string().cuid(),
+    })
+    .strict();
+
+  const zod = transactionIdSchema.safeParse({ session_owner_id, user_id });
 
   if (!zod.success) {
     return NextResponse.json(zod.error, { status: 400 });
   }
 
   try {
-    if (type === "followers") {
-      const followers = await prisma.user
-        .findUnique({
-          where: {
-            id: user_id,
-          },
-        })
-        .followers();
-      return NextResponse.json(followers, { status: 200 });
-    } else if (type === "following") {
-      const following = await prisma.user
-        .findUnique({
-          where: {
-            id: user_id,
-          },
-        })
-        .following();
+    if (type === "transaction") {
+      // Get transactions of user
+      const followersTx = await prisma.transaction.findMany({
+        where: {
+          follower_id: user_id,
+          description: "Buying",
+        },
+      });
 
-      return NextResponse.json(following, { status: 200 });
+      // Get owner's balance
+      const transaction = await prisma.transaction.findFirst({
+        where: { user_id: session_owner_id },
+        orderBy: { created_at: "desc" },
+      });
+
+      let price = 10;
+
+      if (followersTx) {
+        for (let i = 0; i < followersTx.length; i++) {
+          price *= 2;
+        }
+      }
+
+      const results = {
+        price,
+        balance: transaction?.balance || 0,
+      };
+
+      return NextResponse.json(results, { status: 200 });
     }
   } catch (error: any) {
     return NextResponse.json(error.message, { status: 500 });
@@ -132,7 +149,7 @@ export async function PUT(request: Request) {
       systemBalance = followerSystemTransaction.balance;
     }
 
-    // Add a follower transaction
+    // Add a system transaction
     await processTransaction(
       "Cascadia",
       session_owner_id,
@@ -144,17 +161,11 @@ export async function PUT(request: Request) {
     // Increase buyer's followers count
     await updateUserFollowerCount(session_owner_id, 1);
 
-    await prisma.user.update({
-      where: {
-        id: session_owner_id,
-      },
-
+    // Add buying follower
+    await prisma.follower.create({
       data: {
-        followers: {
-          connect: {
-            id: user_id,
-          },
-        },
+        follower_id: session_owner_id,
+        followed_id: user_id,
       },
     });
 
