@@ -35,10 +35,6 @@ export async function POST(request: Request) {
     );
   }
 
-  if (user_id === session_owner_id) {
-    return NextResponse.json({ message: "You can't vote for yourself!" });
-  }
-
   try {
     const user = await findUser(user_id);
 
@@ -72,6 +68,8 @@ export async function POST(request: Request) {
       } else if (user && reputation.reputation_status === "down") {
         await incrementUserReputation(user_id, 1);
       }
+
+      await updateUsersReputation();
 
       return NextResponse.json({ message: "User reputation changed" });
     } else {
@@ -122,6 +120,8 @@ export async function POST(request: Request) {
           );
         }
       }
+
+      await updateUsersReputation();
 
       return NextResponse.json({ message: "User reputation changed" });
     }
@@ -188,4 +188,40 @@ async function incrementUserReputation(id: string, count: number) {
       },
     },
   });
+}
+
+async function updateUsersReputation() {
+  const users = await prisma.user.findMany({});
+
+  const minValue = Math.min(...users.map((user: any) => user.reputation_count));
+  const maxValue = Math.max(...users.map((user: any) => user.reputation_count));
+
+  await Promise.all(
+    users.map(async (user: any) => {
+      await prisma.user.update({
+        where: {
+          id: user.id,
+        },
+
+        data: {
+          normalized_reputation: {
+            set: normalize(user.reputation_count, minValue, maxValue, 1, 100),
+          },
+        },
+      });
+    }),
+  );
+}
+
+function normalize(
+  value: number,
+  min: number,
+  max: number,
+  newMin: number,
+  newMax: number,
+) {
+  const normalizedValue =
+    ((value - min) / (max - min === 0 ? 1 : max - min)) * (newMax - newMin) +
+    newMin;
+  return Math.round(normalizedValue);
 }
