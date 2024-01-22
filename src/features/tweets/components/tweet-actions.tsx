@@ -1,9 +1,10 @@
 import { ITweet } from "../types";
 
 import { CommentButton } from "./actions/comment-button";
+import { DownVoteButton } from "./actions/downvote-button";
 import { RetweetButton } from "./actions/retweet-button";
 import { ShareButton } from "./actions/share-button";
-import { UpvoteAndDownVoteButtons } from "./actions/upvote-and-downvote-buttons";
+import { UpvoteButton } from "./actions/upvote-button";
 import styles from "./styles/tweet-actions.module.scss";
 
 export const TweetActions = ({
@@ -21,12 +22,9 @@ export const TweetActions = ({
         showStats ? styles.tweet : styles.tweetDetails
       }`}
     >
-      <UpvoteAndDownVoteButtons
-        tweet={tweet}
-        smallIcons={false}
-        showStats={showStats}
-      />
       <CommentButton tweet={tweet} showStats={showStats} />
+      <UpvoteButton tweet={tweet} smallIcons={false} />
+      <DownVoteButton tweet={tweet} smallIcons={false} />
       <RetweetButton tweet={tweet} showStats={showStats} />
       <ShareButton tweet={tweet} />
     </div>
