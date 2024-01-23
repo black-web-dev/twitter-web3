@@ -1,0 +1,61 @@
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+
+  .title {
+    font-size: var(--fs-h1);
+    font-weight: var(--fw-700);
+    margin-bottom: 20px;
+  }
+
+  .detail {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+    border: 1px solid var(--clr-border);
+    border-radius: 10px;
+    padding: 1em;
+
+    .item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+
+      .label {
+        color: var(--clr-tertiary);
+      }
+
+      .value {
+        color: var(--clr-blue);
+      }
+    }
+
+    .action {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      .price {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+    }
+
+    .noItem {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+  .bidPriceDetail {
+    width: 100%;
+    position: absolute;
+    left: 120%;
+    padding: 2em;
+  }
+}

@@ -34,7 +34,7 @@ export const CreateTweetQuote = ({ tweet }: { tweet: ITweet }) => {
           <p className={styles.text}>
             {decodeURIComponent(tweet?.text)}{" "}
             {tweet?.quoted_tweet && (
-              <span>{`social.cascadia.foundation/${tweet.author?.email?.split(
+              <span>{`social.cascadia.app/${tweet.author?.email?.split(
                 "@",
               )[0]}/s...`}</span>
             )}

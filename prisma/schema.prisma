@@ -99,6 +99,8 @@ model User {
   transactions       Transaction[]
   retweets           Retweet[]
   bookmarks          Bookmark[]
+  reservations       Reservation[]
+  reservationBids    ReservationBid[]
   sent_messages      Message[]         @relation("receiver")
   received_messages  Message[]         @relation("sender")
   conversations      Conversation[]
@@ -249,4 +251,24 @@ model CryptoLoginNonce {
   nonce   String
   expires DateTime
   user    User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Reservation {
+  id                String   @id @default(cuid())
+  user              User     @relation(fields: [user_id], references: [id])
+  user_id           String
+  username          String   @unique
+  price             String
+  bids              ReservationBid[]
+  created_at        DateTime @default(now())
+}
+
+model ReservationBid {
+  id                String        @id @default(cuid())
+  user              User          @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  user_id           String
+  reservation       Reservation   @relation(fields: [reservation_id], references: [id], onDelete: Cascade)
+  reservation_id    String
+  price             String
+  created_at        DateTime      @default(now())
 }
