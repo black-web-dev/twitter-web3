@@ -23,7 +23,7 @@ export const PersonDetails = ({ author }: { author: IUser }) => {
     user: author,
     session_owner_id: session?.user?.id,
   });
-  console.table(author);
+
   return (
     <div
       role="button"
@@ -65,13 +65,14 @@ export const PersonDetails = ({ author }: { author: IUser }) => {
               </EllipsisWrapper>
             </UserModalWrapper>
           </div>
-
-          <FollowButton
-            user_id={author?.id}
-            session_owner_id={session?.user?.id}
-            isFollowing={isFollowing}
-            username={author?.email?.split("@")[0]}
-          />
+          {author.id !== session?.user.id && (
+            <FollowButton
+              user_id={author?.id}
+              session_owner_id={session?.user?.id}
+              isFollowing={isFollowing}
+              username={author?.email?.split("@")[0]}
+            />
+          )}
         </div>
 
         {author?.description && (

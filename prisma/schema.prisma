@@ -106,6 +106,56 @@ model User {
   conversations      Conversation[]
   pinned_tweet       Tweet?            @relation("pinned_tweet", fields: [pinned_tweet_id], references: [id])
   pinned_tweet_id    String?
+  id                    String            @id @default(cuid())
+  name                  String
+  screen_name           String            @unique @default(cuid())
+  location              String?
+  url                   String?
+  description           String?
+  detail                String?
+  protected             Boolean           @default(false)
+  verified              Boolean           @default(false)
+  email                 String?           @unique
+  emailVerified         DateTime?
+  google_id             String?           @unique
+  google_username       String?           @unique
+  google_email          String?           @unique
+  discord_id            String?           @unique
+  discord_username      String?           @unique
+  discord_email         String?           @unique
+  twitter_id            String?           @unique
+  twitter_username      String?           @unique
+  twitter_email         String?           @unique
+  image                 String?
+  password              String?
+  role                  UserRole          @default(USER)
+  created_at            DateTime          @default(now())
+  followers_count       Int               @default(0)
+  friends_count         Int               @default(0)
+  favorites_count       Int               @default(0)
+  statuses_count        Int               @default(0)
+  reputation_count      Float             @default(0)
+  normalized_reputation Int               @default(0)
+  profile_banner_url    String?
+  profile_image_url     String?
+  evm_address           String?           @unique // Added to enable crypto authentication
+  bech32_address        String?           @unique
+  cryptoLoginNonce      CryptoLoginNonce?
+  accounts              Account[]
+  sessions              Session[]
+  tweets                Tweet[]
+  likes                 Like[]
+  reputations           Reputation[]
+  votes                 Vote[]
+  followers             Follower[]        @relation("follower")
+  following             Follower[]        @relation("followed")
+  retweets              Retweet[]
+  bookmarks             Bookmark[]
+  sent_messages         Message[]         @relation("receiver")
+  received_messages     Message[]         @relation("sender")
+  conversations         Conversation[]
+  pinned_tweet          Tweet?            @relation("pinned_tweet", fields: [pinned_tweet_id], references: [id])
+  pinned_tweet_id       String?
 }
 
 model Follower {
@@ -119,12 +169,12 @@ model Follower {
 
 model Transaction {
   id          String   @id @default(cuid())
-  user        User     @relation(fields: [follower_id], references: [id])
   user_id     String
   follower_id String
   balance     Float
   amount      Float
   description String
+  package     Int
   created_at  DateTime @default(now())
 }
 

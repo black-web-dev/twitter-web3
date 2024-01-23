@@ -1,10 +1,14 @@
 "use client";
+import { useSession } from "next-auth/react";
+
+import { BuyFollowersButton } from "@/components/elements/buy-followers-button";
 import { LoadingSpinner } from "@/components/elements/loading-spinner";
 import { TryAgain } from "@/components/elements/try-again";
 import { ConnectHeader, PersonDetails } from "@/features/connect";
 import { useUsers } from "@/features/profile";
 
 export const ConnectClientPage = () => {
+  const { data: session } = useSession();
   const { data: people, isLoading, isError, isSuccess } = useUsers();
 
   if (isLoading) {
@@ -41,6 +45,17 @@ export const ConnectClientPage = () => {
       >
         Suggested for you
       </h1>
+
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "end",
+          padding: "0.5em 1em",
+        }}
+      >
+        <BuyFollowersButton session_owner_id={session?.user?.id} />
+      </div>
+
       {isSuccess &&
         people.length > 0 &&
         people?.map((person) => {

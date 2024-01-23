@@ -73,8 +73,8 @@ export const ReputationButtons = ({
           {hasUpvoted ? <UpArrowIconActive /> : <UpArrowIcon />}
         </span>
       </button>
-      {user?.reputation_count !== undefined && (
-        <span className={styles.stats}>{user?.reputation_count}</span>
+      {user?.normalized_reputation !== undefined && (
+        <span className={styles.stats}>{user?.normalized_reputation}</span>
       )}
       <button
         aria-label={hasDownvoted ? "Undownvote" : "Downvote"}

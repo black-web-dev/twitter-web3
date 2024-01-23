@@ -36,6 +36,7 @@ export async function GET(
         profile_image_url: true,
         profile_banner_url: true,
         reputation_count: true,
+        normalized_reputation: true,
 
         created_at: true,
         description: true,
@@ -45,14 +46,12 @@ export async function GET(
         verified: true,
         followers: true,
         following: true,
-        transactions: true,
         reputations: true,
 
         _count: {
           select: {
             followers: true,
             following: true,
-            transactions: true,
           },
         },
       },

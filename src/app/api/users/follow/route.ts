@@ -17,24 +17,103 @@ export async function GET(request: Request) {
 
   try {
     if (type === "followers") {
-      const followers = await prisma.user
-        .findUnique({
-          where: {
-            id: user_id,
-          },
-        })
-        .followers();
-      return NextResponse.json(followers, { status: 200 });
-    } else if (type === "following") {
-      const following = await prisma.user
-        .findUnique({
-          where: {
-            id: user_id,
-          },
-        })
-        .following();
+      const followers = await prisma.follower.findMany({
+        where: {
+          follower_id: user_id,
+        },
+      });
 
-      return NextResponse.json(following, { status: 200 });
+      const followed = [];
+      for (let idx = 0; idx < followers.length; idx++) {
+        const followed_id = followers[idx].followed_id;
+        const followedUser = await prisma.user.findUnique({
+          where: {
+            id: followed_id,
+          },
+
+          select: {
+            id: true,
+            name: true,
+            screen_name: true,
+            email: true,
+            discord_username: true,
+            discord_email: true,
+            profile_image_url: true,
+            profile_banner_url: true,
+            reputation_count: true,
+
+            created_at: true,
+            description: true,
+            detail: true,
+            location: true,
+            url: true,
+            verified: true,
+            followers: true,
+            following: true,
+            reputations: true,
+
+            _count: {
+              select: {
+                followers: true,
+                following: true,
+              },
+            },
+          },
+        });
+
+        followed.push(followedUser);
+      }
+
+      return NextResponse.json(followed, { status: 200 });
+    } else if (type === "following") {
+      const followers = await prisma.follower.findMany({
+        where: {
+          followed_id: user_id,
+        },
+      });
+
+      const followed = [];
+      for (let idx = 0; idx < followers.length; idx++) {
+        const follower_id = followers[idx].follower_id;
+        const followingUser = await prisma.user.findUnique({
+          where: {
+            id: follower_id,
+          },
+
+          select: {
+            id: true,
+            name: true,
+            screen_name: true,
+            email: true,
+            discord_username: true,
+            discord_email: true,
+            profile_image_url: true,
+            profile_banner_url: true,
+            reputation_count: true,
+
+            created_at: true,
+            description: true,
+            detail: true,
+            location: true,
+            url: true,
+            verified: true,
+            followers: true,
+            following: true,
+            reputations: true,
+
+            _count: {
+              select: {
+                followers: true,
+                following: true,
+              },
+            },
+          },
+        });
+
+        followed.push(followingUser);
+      }
+
+      return NextResponse.json(followed, { status: 200 });
     }
   } catch (error: any) {
     return NextResponse.json(error.message, { status: 500 });
@@ -61,24 +140,10 @@ export async function PUT(request: Request) {
   }
 
   try {
-    // await prisma.user.update({
-    //   where: {
-    //     id: user_id,
-    //   },
-
-    //   data: {
-    //     followers: {
-    //       connect: {
-    //         id: session_owner_id,
-    //       },
-    //     },
-    //   },
-    // });
-
     await prisma.follower.create({
       data: {
-        follower_id: user_id,
-        followed_id: session_owner_id,
+        follower_id: session_owner_id,
+        followed_id: user_id,
       },
     });
 
@@ -115,24 +180,10 @@ export async function DELETE(request: Request) {
   }
 
   try {
-    // await prisma.user.update({
-    //   where: {
-    //     id: user_id,
-    //   },
-
-    //   data: {
-    //     followers: {
-    //       disconnect: {
-    //         id: session_owner_id,
-    //       },
-    //     },
-    //   },
-    // });
-
     const delFollower = await prisma.follower.findFirst({
       where: {
-        follower_id: user_id,
-        followed_id: session_owner_id,
+        follower_id: session_owner_id,
+        followed_id: user_id,
       },
       orderBy: { created_at: "desc" },
     });
