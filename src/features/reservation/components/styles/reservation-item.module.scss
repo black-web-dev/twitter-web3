@@ -1,0 +1,75 @@
+@use "abstracts/tooltips" as *;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 1em 0;
+
+  .header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .username {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: var(--fs-h1);
+      font-weight: var(--fw-700);
+      color: var(--clr-blue);
+      cursor: pointer;
+    }
+
+    .option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      .badge {
+        border-radius: 50px;
+        border: 1px solid var(--clr-border);
+        padding: 0.25em 0.5em;
+        font-size: var(--fs-pico);
+        font-weight: var(--fw-700);
+        text-transform: capitalize;
+      }
+    }
+  }
+
+  .detail {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .owner {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 5px;
+      font-size: var(--fs-pico);
+      font-weight: var(--fw-500);
+
+      .link {
+        color: var(--clr-tertiary);
+        @include tooltip(bottom, 2px);
+
+        .name {
+          color: var(--clr-blue);
+        }
+      }
+    }
+  }
+
+  .action {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    font-size: var(--fs-pico);
+  }
+}

@@ -9,6 +9,10 @@ import { Governance, GovernanceActive } from "../assets/governance-icon";
 import { Hashtag, HashtagActive } from "../assets/hashtag-icon";
 import { HeartIcon, HeartIconActive } from "../assets/heart-icon";
 import { HomeActive, Home } from "../assets/home-icon";
+import {
+  ReservationIcon,
+  ReservationIconActive,
+} from "../assets/reservation-icon";
 import { User, UserActive } from "../assets/user-icon";
 
 import NavItem from "./navbar-item";
@@ -81,6 +85,21 @@ export const Navbar = () => {
           title={`Follow`}
           path={`people`}
           isActive={pathname === `/people`}
+        />
+      )}
+
+      {session && (
+        <NavItem
+          icon={
+            pathname === `/reservation` ? (
+              <ReservationIconActive />
+            ) : (
+              <ReservationIcon />
+            )
+          }
+          title={`Reservation`}
+          path={`reservation`}
+          isActive={pathname === `/reservation`}
         />
       )}
 
