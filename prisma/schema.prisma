@@ -122,6 +122,7 @@ model Transaction {
   balance     Float
   amount      Float
   description String
+  package     Int
   created_at  DateTime @default(now())
 }
 

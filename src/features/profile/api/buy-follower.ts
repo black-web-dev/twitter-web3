@@ -47,3 +47,34 @@ export const buyfollower = async (
     return error.message;
   }
 };
+
+export const buyfollowers = async (
+  session_owner_id: string,
+  packages: number,
+  amount: number,
+) => {
+  try {
+    const { data } = await axios.put("/api/users/buyFollowers", {
+      session_owner_id,
+      packages,
+      amount,
+    });
+
+    return data;
+  } catch (error: any) {
+    return error.message;
+  }
+};
+
+export const getPackages = async (user_id: string) => {
+  try {
+    const params = {
+      user_id,
+      type: "packages",
+    };
+    const { data } = await axios.get(`/api/users/buyFollowers`, { params });
+    return data;
+  } catch (error: any) {
+    return error.message;
+  }
+};

@@ -55,3 +55,7 @@ export interface IBuyingInfo {
   price: number;
   balance: number;
 }
+
+export interface IPackagesInfo {
+  packages: number;
+}

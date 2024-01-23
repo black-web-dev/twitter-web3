@@ -16,7 +16,10 @@ import { FollowButton } from "@/components/elements/follow-button";
 import { Modal } from "@/components/elements/modal";
 
 import { WebsiteIcon } from "../assets/website-icon";
-import { useGetTransactions } from "../hooks/use-get-transactions";
+import {
+  useGetTransactions,
+  useGetPackages,
+} from "../hooks/use-get-transactions";
 import { IUser } from "../types";
 import { following, buying } from "../utils/following";
 
@@ -51,13 +54,15 @@ export const ProfileInfo = ({ user, id }: { user: IUser; id: string }) => {
     session_owner_id: session?.user?.id,
   });
 
-  const { data } = useGetTransactions({
+  const { data: transactions } = useGetTransactions({
     user_id: user.id,
     session_owner_id: session?.user?.id,
   });
 
-  const buyingInfo = data;
-  console.log("hrch", buyingInfo);
+  const { data: packages } = useGetPackages({
+    user_id: user.id,
+  });
+
   const saveToLocalStorage = () => {
     if (typeof window !== "undefined") {
       window.localStorage.setItem("userReputation", "userReputation");
@@ -177,7 +182,7 @@ export const ProfileInfo = ({ user, id }: { user: IUser; id: string }) => {
                 user_id={user?.id}
                 session_owner_id={session?.user?.id}
                 isBuying={isBuying}
-                amount={buyingInfo?.price}
+                amount={transactions?.price}
                 username={user?.email?.split("@")[0]}
               />
             </div>
@@ -242,7 +247,9 @@ export const ProfileInfo = ({ user, id }: { user: IUser; id: string }) => {
 
           <div className={styles.stats}>
             <Link href={`/${id}/following`} className={styles.stat}>
-              <span className={styles.number}>{user?._count?.following}</span>
+              <span className={styles.number}>
+                {(user?._count?.following || 0) + (packages?.packages || 0)}
+              </span>
               Following
             </Link>
             <Link href={`/${id}/followers`} className={styles.stat}>
