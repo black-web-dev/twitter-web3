@@ -140,13 +140,13 @@ export async function PUT(request: Request) {
     );
 
     // Get the last transaction of the system from the database
-    const followerSystemTransaction = await prisma.transaction.findFirst({
+    const systemTransaction = await prisma.transaction.findFirst({
       where: { user_id: "Cascadia" },
       orderBy: { created_at: "desc" },
     });
 
-    if (followerSystemTransaction) {
-      systemBalance = followerSystemTransaction.balance;
+    if (systemTransaction) {
+      systemBalance = systemTransaction.balance;
     }
 
     // Add a system transaction
@@ -158,16 +158,16 @@ export async function PUT(request: Request) {
       // `Buying: ${session_owner_id} => ${user_id}`,
     );
 
-    // Increase buyer's followers count
-    await updateUserFollowerCount(session_owner_id, 1);
-
     // Add buying follower
     await prisma.follower.create({
       data: {
-        follower_id: session_owner_id,
-        followed_id: user_id,
+        follower_id: user_id,
+        followed_id: session_owner_id,
       },
     });
+
+    // Increase buyer's followers count
+    // await updateUserFollowerCount(session_owner_id, 1);
 
     return NextResponse.json(
       {
@@ -203,19 +203,27 @@ export async function DELETE(request: Request) {
   }
 
   try {
-    await prisma.user.update({
+    const delFollower = await prisma.follower.findFirst({
       where: {
-        id: user_id,
+        follower_id: session_owner_id,
+        followed_id: user_id,
       },
-
-      data: {
-        followers: {
-          disconnect: {
-            id: session_owner_id,
-          },
-        },
-      },
+      orderBy: { created_at: "desc" },
     });
+
+    // Remove buying follower
+    if (delFollower) {
+      await prisma.follower.delete({
+        where: {
+          id: delFollower.id,
+        },
+      });
+    }
+
+    // Decrease buyer's followers count
+    // if (session_owner_id) {
+    //   await updateUserFollowerCount(session_owner_id, -1);
+    // }
 
     return NextResponse.json(
       {
@@ -265,6 +273,7 @@ const processTransaction = async (
       balance: balance,
       amount: amount,
       description: description,
+      package: 0,
       created_at: new Date(),
     },
   });
