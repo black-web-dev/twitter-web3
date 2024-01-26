@@ -1,0 +1,32 @@
+.container {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+
+  .sort {
+    height: 100%;
+    position: relative;
+
+    svg {
+      width: 18px;
+      height: 18px;
+      fill: var(--clr-tertiary);
+    }
+
+    .up {
+      position: absolute;
+      top: 0px;
+    }
+
+    .down {
+      position: absolute;
+      top: 2px;
+    }
+
+    .active {
+      svg {
+        fill: var(--clr-light);
+      }
+    }
+  }
+}

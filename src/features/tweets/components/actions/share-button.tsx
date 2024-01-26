@@ -99,7 +99,7 @@ export const ShareButton = ({ tweet }: { tweet: ITweet }) => {
                     setJoinTwitterData({
                       isModalOpen: true,
                       action: "message",
-                      user: tweet?.author?.name,
+                      user: tweet?.author?.screen_name,
                     });
                     setIsModalOpen(false);
                   } else {

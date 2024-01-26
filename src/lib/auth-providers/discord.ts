@@ -8,7 +8,7 @@ export const discord = {
   clientSecret: DISCORD_CLIENT_SECRET,
   allowDangerousEmailAccountLinking: true,
   async profile(profile: DiscordProfile) {
-    const name = generateFromEmail(profile.email, 5);
+    const randomName = generateFromEmail(profile.email, 5);
 
     const image = profile.avatar
       ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.webp?size=32`
@@ -21,8 +21,8 @@ export const discord = {
 
     return {
       id: profile.id,
-      name: name,
-      screen_name: profile.global_name,
+      name: randomName,
+      screen_name: randomName,
       email: profile.email,
       image,
       profile_image_url,

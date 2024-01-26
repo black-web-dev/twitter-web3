@@ -70,10 +70,25 @@ export async function POST(request: Request) {
       where: { user_id: bid.user_id, reservation_id: bid.reservation_id },
     });
 
+    const existPrice = await prisma.reservationBid.findMany({
+      where: {
+        reservation_id: bid.reservation_id,
+        price: bid.price,
+      },
+    });
+
     if (exist.length > 0)
       return NextResponse.json(
         {
-          message: "Bid already exists.",
+          message: "You have already bid on this username.",
+        },
+        { status: 200 },
+      );
+
+    if (existPrice.length > 0)
+      return NextResponse.json(
+        {
+          message: "Someone has already bid the same price.",
         },
         { status: 200 },
       );

@@ -40,7 +40,7 @@ export const SessionOwnerButton = () => {
         <div className={styles.userInfo}>
           <EllipsisWrapper>
             <UserName
-              name={session?.user?.name}
+              name={session?.user?.screen_name}
               isVerified={session?.user?.verified}
             />
           </EllipsisWrapper>

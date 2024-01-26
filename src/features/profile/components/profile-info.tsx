@@ -14,6 +14,7 @@ import { BuyFollowerButton } from "@/components/elements/buy-follower-button";
 import { EllipsisWrapper } from "@/components/elements/ellipsis-wrapper";
 import { FollowButton } from "@/components/elements/follow-button";
 import { Modal } from "@/components/elements/modal";
+import { getAllowedUsername } from "@/functions";
 
 import { WebsiteIcon } from "../assets/website-icon";
 import {
@@ -33,6 +34,8 @@ import { UserJoinDate } from "./user-join-date";
 
 export const ProfileInfo = ({ user, id }: { user: IUser; id: string }) => {
   const { data: session } = useSession();
+
+  const { allowedName } = getAllowedUsername(user);
 
   const [isEditProfileModalOpen, setIsEditProfileModalOpen] = useState(false);
   const [isEditDetailModalOpen, setIsEditDetailModalOpen] = useState(false);
@@ -193,11 +196,11 @@ export const ProfileInfo = ({ user, id }: { user: IUser; id: string }) => {
           <div className={styles.nameContainer}>
             <div className={styles.name}>
               <EllipsisWrapper>
-                <h2>{user?.name}</h2>
+                <h2>{allowedName}</h2>
               </EllipsisWrapper>
 
               <EllipsisWrapper>
-                <span>@{user?.email?.split("@")[0]}</span>
+                <span>{user?.email}</span>
               </EllipsisWrapper>
             </div>
 

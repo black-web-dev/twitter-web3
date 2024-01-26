@@ -23,6 +23,7 @@ export const Tweets = () => {
     hasNextPage,
   } = useTweets({ sortByVote });
 
+  console.log(tweets);
   if (isLoading) {
     return <LoadingSpinner />;
   }

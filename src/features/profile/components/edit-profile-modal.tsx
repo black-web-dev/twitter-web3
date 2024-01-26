@@ -16,6 +16,7 @@ import { IProfile, IUser } from "../types";
 
 import { SocialButton } from "./social-button";
 import styles from "./styles/edit-profile-modal.module.scss";
+import { UsernameSwitch } from "./username-switch";
 
 export const EditProfileModal = ({
   user,
@@ -49,11 +50,13 @@ export const EditProfileModal = ({
     onSettled: () => {
       closeModal();
       queryClient.invalidateQueries({ queryKey: ["users", user?.id] });
+      queryClient.refetchQueries();
     },
   });
 
   const [profile, setProfile] = useState<IProfile>({
     name: user?.name || "",
+    screen_name: user?.screen_name || "",
     bio: user?.description || "",
     location: user?.location || "",
     website: user?.url || "",
@@ -220,7 +223,7 @@ export const EditProfileModal = ({
       </div>
 
       <div className={styles.form}>
-        <TextInput
+        {/* <TextInput
           id="name"
           name="name"
           onChange={(e) => {
@@ -234,7 +237,9 @@ export const EditProfileModal = ({
           maxLength={50}
           isError={profile?.name.length === 0}
           errorMessage="Name can't be blank"
-        />
+        /> */}
+
+        <UsernameSwitch user={user} setProfile={setProfile} />
 
         <TextInput
           id="bio"

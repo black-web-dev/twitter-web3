@@ -14,6 +14,7 @@ export async function GET(request: Request) {
         author: {
           include: {
             bookmarks: true,
+            reservations: true,
           },
         },
 

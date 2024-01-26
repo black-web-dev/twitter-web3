@@ -1,5 +1,6 @@
 import { User, Like, Reputation, Transaction, Follower } from "@prisma/client";
 
+import { IReservation } from "@/features/auction";
 import { ITweet } from "@/features/tweets";
 import { IBookmark } from "@/features/tweets";
 
@@ -10,6 +11,7 @@ export interface IUser extends User {
   likes: ILike[];
   bookmarks: IBookmark[];
   reputations: IReputation[];
+  reservations: IReservation[];
   pinned_tweet: ITweet;
   _count?: {
     followers?: number;
@@ -21,6 +23,7 @@ export interface IUser extends User {
 
 export interface IProfile {
   name: string;
+  screen_name: string;
   bio: string | undefined;
   location: string | undefined;
   website: string | undefined;

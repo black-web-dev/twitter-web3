@@ -1,0 +1,23 @@
+.container {
+  width: 100%;
+
+  .header {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    padding: 1em 0;
+    border-bottom: 1px solid var(--clr-border);
+  }
+
+  .reservationContainer {
+    width: 100%;
+    padding: 0.5em 0;
+    border-bottom: 1px solid var(--clr-border);
+  }
+
+  .noItem {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2em 0;
+  }
+}

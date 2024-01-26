@@ -52,7 +52,7 @@ export const RetweetButton = ({
             setJoinTwitterData({
               isModalOpen: true,
               action: "retweet",
-              user: tweet?.author?.name,
+              user: tweet?.author?.screen_name,
             });
           } else setIsModalOpen(true);
         }}

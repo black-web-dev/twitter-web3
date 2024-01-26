@@ -48,6 +48,8 @@ export async function GET(
         following: true,
         reputations: true,
 
+        reservations: true,
+
         _count: {
           select: {
             followers: true,
@@ -67,6 +69,7 @@ export async function PUT(request: Request) {
   const {
     user_id,
     name,
+    screen_name,
     description,
     location,
     url,
@@ -75,6 +78,7 @@ export async function PUT(request: Request) {
   } = (await request.json()) as {
     user_id: string;
     name: string;
+    screen_name: string;
     description: string;
     location: string;
     url: string;
@@ -86,6 +90,7 @@ export async function PUT(request: Request) {
     .object({
       user_id: z.string().cuid(),
       name: z.string().min(1).max(50),
+      screen_name: z.string().min(1).max(50),
       description: z.string().max(160),
       location: z.string().max(30),
       url: z.string(),
@@ -97,6 +102,7 @@ export async function PUT(request: Request) {
   const zod = userSchema.safeParse({
     user_id,
     name,
+    screen_name,
     description,
     location,
     url,
@@ -115,6 +121,7 @@ export async function PUT(request: Request) {
       },
       data: {
         name,
+        screen_name,
         description,
         location,
         url,

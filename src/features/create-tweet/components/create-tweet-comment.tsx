@@ -2,12 +2,15 @@ import { CreateDate } from "@/components/elements/create-date";
 import { EllipsisWrapper } from "@/components/elements/ellipsis-wrapper";
 import { Avatar, UserName, UserScreenName } from "@/features/profile";
 import { ITweet } from "@/features/tweets";
+import { getAllowedUsername } from "@/functions";
 
 import { CreateTweetQuote } from "./create-tweet-quote";
 import { ReplyingTo } from "./replying-to";
 import styles from "./styles/create-tweet-comment.module.scss";
 
 export const CreateTweetComment = ({ tweet }: { tweet: ITweet | null }) => {
+  const { allowedName } = getAllowedUsername(tweet?.author);
+
   return (
     <div className={styles.container}>
       <div className={styles.avatar}>
@@ -18,10 +21,7 @@ export const CreateTweetComment = ({ tweet }: { tweet: ITweet | null }) => {
       <div className={styles.content}>
         <div className={styles.userDetails}>
           <EllipsisWrapper>
-            <UserName
-              name={tweet?.author?.name}
-              isVerified={tweet?.author?.verified}
-            />
+            <UserName name={allowedName} isVerified={tweet?.author?.verified} />
           </EllipsisWrapper>
 
           <EllipsisWrapper>

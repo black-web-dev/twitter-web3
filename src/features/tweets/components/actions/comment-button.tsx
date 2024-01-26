@@ -36,7 +36,7 @@ export const CommentButton = ({
           setJoinTwitterData({
             isModalOpen: true,
             action: "comment",
-            user: tweet?.author?.name,
+            user: tweet?.author?.screen_name,
           });
         } else {
           setData({

@@ -8,6 +8,7 @@ import {
   UserName,
   UserScreenName,
 } from "@/features/profile";
+import { getAllowedUsername } from "@/functions";
 
 import { ITweet } from "../types";
 
@@ -16,6 +17,8 @@ import { TweetMedia } from "./tweet-media";
 
 export const QuotedTweet = ({ tweet }: { tweet: ITweet }) => {
   const router = useRouter();
+
+  const { allowedName } = getAllowedUsername(tweet.author);
 
   return (
     <div
@@ -42,10 +45,7 @@ export const QuotedTweet = ({ tweet }: { tweet: ITweet }) => {
 
         <UserModalWrapper userId={tweet?.author?.id}>
           <EllipsisWrapper>
-            <UserName
-              name={tweet?.author?.name}
-              isVerified={tweet?.author.verified}
-            />
+            <UserName name={allowedName} isVerified={tweet?.author.verified} />
           </EllipsisWrapper>
         </UserModalWrapper>
 

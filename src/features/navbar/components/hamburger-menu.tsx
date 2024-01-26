@@ -63,7 +63,7 @@ export const HamburgerMenu = () => {
           }}
         >
           <UserName
-            name={session?.user?.name}
+            name={session?.user?.screen_name}
             hover={true}
             isVerified={session?.user?.isVerified}
           />

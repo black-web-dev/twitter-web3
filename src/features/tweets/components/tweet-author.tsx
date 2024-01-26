@@ -8,10 +8,13 @@ import {
 } from "@/features/profile";
 import { TweetOptions } from "@/features/tweets";
 import { ITweet } from "@/features/tweets";
+import { getAllowedUsername } from "@/functions";
 
 import styles from "./styles/tweet-author.module.scss";
 
 export const TweetAuthor = ({ tweet }: { tweet: ITweet }) => {
+  const { allowedName } = getAllowedUsername(tweet.author);
+
   return (
     <div className={styles.container}>
       <UserModalWrapper userId={tweet?.author?.id}>
@@ -25,7 +28,7 @@ export const TweetAuthor = ({ tweet }: { tweet: ITweet }) => {
           <LinkToProfile userId={tweet?.author?.id}>
             <EllipsisWrapper>
               <UserName
-                name={tweet?.author?.name}
+                name={allowedName}
                 isVerified={tweet?.author?.verified}
                 hover={true}
               />

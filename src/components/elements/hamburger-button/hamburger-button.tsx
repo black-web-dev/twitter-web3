@@ -20,7 +20,7 @@ export const HamburgerButton = () => {
         <button
           aria-expanded={isHamburgerOpen}
           aria-haspopup="menu"
-          aria-label={`Profile menu ${session?.user?.name}`}
+          aria-label={`Profile menu ${session?.user?.screen_name}`}
           onClick={() => openHamburger()}
           className={styles.container}
         >

@@ -75,6 +75,7 @@ export async function GET(request: Request) {
         author: {
           include: {
             bookmarks: true,
+            reservations: true,
           },
         },
 
@@ -85,7 +86,12 @@ export async function GET(request: Request) {
 
         quoted_tweet: {
           include: {
-            author: true,
+            author: {
+              include: {
+                bookmarks: true,
+                reservations: true,
+              },
+            },
             media: true,
           },
         },

@@ -1,6 +1,7 @@
 import { usePathname } from "next/navigation";
 import { useSession } from "next-auth/react";
 
+import { AuctionIcon, AuctionIconActive } from "../assets/auction-icon";
 import { BellActive, Bell } from "../assets/bell-icon";
 import { Bookmark, BookmarkActive } from "../assets/bookmark-icon";
 import { Envelope, EnvelopeActive } from "../assets/envelope-icon";
@@ -9,10 +10,6 @@ import { Governance, GovernanceActive } from "../assets/governance-icon";
 import { Hashtag, HashtagActive } from "../assets/hashtag-icon";
 import { HeartIcon, HeartIconActive } from "../assets/heart-icon";
 import { HomeActive, Home } from "../assets/home-icon";
-import {
-  ReservationIcon,
-  ReservationIconActive,
-} from "../assets/reservation-icon";
 import { User, UserActive } from "../assets/user-icon";
 
 import NavItem from "./navbar-item";
@@ -91,15 +88,11 @@ export const Navbar = () => {
       {session && (
         <NavItem
           icon={
-            pathname === `/reservation` ? (
-              <ReservationIconActive />
-            ) : (
-              <ReservationIcon />
-            )
+            pathname === `/auction` ? <AuctionIconActive /> : <AuctionIcon />
           }
-          title={`Reservation`}
-          path={`reservation`}
-          isActive={pathname === `/reservation`}
+          title={`Auction`}
+          path={`auction`}
+          isActive={pathname === `/auction`}
         />
       )}
 

@@ -12,12 +12,15 @@ import {
   UserName,
   UserScreenName,
 } from "@/features/profile";
+import { getAllowedUsername } from "@/functions";
 
 import styles from "./styles/person-details.module.scss";
 
 export const PersonDetails = ({ author }: { author: IUser }) => {
   const { data: session } = useSession();
   const router = useRouter();
+
+  const { allowedName } = getAllowedUsername(author);
 
   const isFollowing = following({
     user: author,
@@ -51,7 +54,7 @@ export const PersonDetails = ({ author }: { author: IUser }) => {
               <LinkToProfile userId={author?.id}>
                 <EllipsisWrapper>
                   <UserName
-                    name={author?.name}
+                    name={allowedName}
                     isVerified={author?.verified}
                     hover={true}
                   />

@@ -23,6 +23,7 @@ export const getTweetMetadata = async ({ tweet_id }: { tweet_id: string }) => {
             name: true,
             email: true,
             profile_image_url: true,
+            reservations: true,
           },
         },
 

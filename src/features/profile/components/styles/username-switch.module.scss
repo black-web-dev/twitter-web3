@@ -1,0 +1,10 @@
+.reservation {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  .title {
+    font-size: var(--h2);
+    font-weight: var(--fw-700);
+  }
+}

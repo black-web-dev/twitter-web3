@@ -40,7 +40,7 @@ export const DownVoteButton = ({
             setJoinTwitterData({
               isModalOpen: true,
               action: "downvote",
-              user: tweet?.author?.name || "user",
+              user: tweet?.author?.screen_name || "user",
             });
           }
           mutation.mutate({

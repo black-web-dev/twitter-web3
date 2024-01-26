@@ -8,6 +8,8 @@ export async function GET(request: Request) {
 
   const cursorQuery = searchParams.get("cursor") || undefined;
   const take = Number(searchParams.get("limit")) || 20;
+  const sortKey = searchParams.get("sortKey") || "";
+  const sortDirection = searchParams.get("sortDirection") || "desc";
 
   const skip = cursorQuery ? 1 : 0;
   const cursor = cursorQuery ? { id: cursorQuery } : undefined;
@@ -23,7 +25,23 @@ export async function GET(request: Request) {
         bids: true,
       },
 
-      orderBy: { created_at: "desc" },
+      orderBy: {
+        ...(sortKey === "username" && {
+          username: sortDirection === "desc" ? "desc" : "asc",
+        }),
+
+        ...(sortKey === "price" && {
+          price: sortDirection === "desc" ? "desc" : "asc",
+        }),
+
+        ...(sortKey === "time" && {
+          created_at: sortDirection === "desc" ? "desc" : "asc",
+        }),
+
+        ...(sortKey === "" && {
+          created_at: "desc",
+        }),
+      },
     });
 
     const nextId =
@@ -53,7 +71,7 @@ export async function POST(request: Request) {
     .object({
       username: z.string(),
       user_id: z.string().cuid(),
-      price: z.string().nullable().default("25"),
+      price: z.string().nullable().default("0"),
     })
     .strict();
 
@@ -85,7 +103,7 @@ export async function POST(request: Request) {
     const created_reservation = await prisma.reservation.create({
       data: {
         ...reservation,
-        price: reservation.price || "25", // set default price from smart contract later
+        price: reservation.price || "0", // set default price from smart contract later
       },
     });
 

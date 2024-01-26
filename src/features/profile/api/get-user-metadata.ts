@@ -49,6 +49,8 @@ export const getUserMetadata = async ({
             },
           },
         }),
+
+        reservations: true,
       },
     });
 

@@ -40,7 +40,7 @@ export const LikeButton = ({
           setJoinTwitterData({
             isModalOpen: true,
             action: "like",
-            user: tweet?.author?.name || "user",
+            user: tweet?.author?.screen_name || "user",
           });
         }
         mutation.mutate({ tweetId: tweet?.id, userId: session?.user?.id });

@@ -11,6 +11,7 @@ import {
   UserName,
   UserScreenName,
 } from "@/features/profile";
+import { getAllowedUsername } from "@/functions";
 
 import { ITweet } from "../types";
 
@@ -28,6 +29,8 @@ export const Tweet = ({
   pinned?: boolean;
 }) => {
   const router = useRouter();
+
+  const { allowedName } = getAllowedUsername(tweet.author);
 
   return (
     <div
@@ -65,7 +68,7 @@ export const Tweet = ({
               <LinkToProfile userId={tweet?.author?.id}>
                 <EllipsisWrapper>
                   <UserName
-                    name={tweet?.author?.name}
+                    name={allowedName}
                     isVerified={tweet?.author?.verified}
                     hover={true}
                   />

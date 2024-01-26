@@ -41,7 +41,7 @@ export const UpvoteButton = ({
             setJoinTwitterData({
               isModalOpen: true,
               action: "upvote",
-              user: tweet?.author?.name || "user",
+              user: tweet?.author?.screen_name || "user",
             });
           }
           mutation.mutate({

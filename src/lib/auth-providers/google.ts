@@ -13,7 +13,7 @@ export const google = {
     return {
       id: profile.sub,
       name: randomName,
-      screen_name: profile.name,
+      screen_name: randomName,
       email: profile.email,
       image: profile.picture || "",
       google_id: profile.sub,

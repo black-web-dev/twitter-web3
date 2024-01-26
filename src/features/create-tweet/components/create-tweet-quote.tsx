@@ -3,10 +3,13 @@ import { EllipsisWrapper } from "@/components/elements/ellipsis-wrapper";
 import { Avatar, UserName, UserScreenName } from "@/features/profile";
 import { TweetMedia } from "@/features/tweets";
 import { ITweet } from "@/features/tweets";
+import { getAllowedUsername } from "@/functions";
 
 import styles from "./styles/create-tweet-quote.module.scss";
 
 export const CreateTweetQuote = ({ tweet }: { tweet: ITweet }) => {
+  const { allowedName } = getAllowedUsername(tweet.author);
+
   return (
     <div className={styles.container}>
       <div className={styles.userDetails}>
@@ -15,10 +18,7 @@ export const CreateTweetQuote = ({ tweet }: { tweet: ITweet }) => {
         </span>
 
         <EllipsisWrapper>
-          <UserName
-            name={tweet?.author?.name}
-            isVerified={tweet?.author?.verified}
-          />
+          <UserName name={allowedName} isVerified={tweet?.author?.verified} />
         </EllipsisWrapper>
 
         <EllipsisWrapper>

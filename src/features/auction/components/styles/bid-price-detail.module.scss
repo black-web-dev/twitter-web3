@@ -1,0 +1,19 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+  .link {
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
+  table {
+    th,
+    td {
+      border: 1px solid var(--clr-border);
+      padding: 0.25em 0.75em;
+    }
+  }
+}

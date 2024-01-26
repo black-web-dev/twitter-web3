@@ -9,12 +9,12 @@ export const twitter = {
   version: "2.0", // opt-in to Twitter OAuth 2.0
   allowDangerousEmailAccountLinking: true,
   async profile(profile: TwitterProfile) {
-    console.log(profile);
-    const name = generateFromEmail(profile.data.username, 5);
+    const randomName = generateFromEmail(profile.data.username, 5);
+
     return {
       id: profile.data.id,
-      name: name,
-      screen_name: profile.data.name,
+      name: randomName,
+      screen_name: randomName,
       email: profile.data.username,
       image: profile.data.profile_image_url,
       twitter_id: profile.data.id,

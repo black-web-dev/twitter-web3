@@ -6,6 +6,7 @@ import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import TwitterProvider from "next-auth/providers/twitter";
 
+import { getAllowedUsername } from "@/functions";
 import { prisma } from "@/lib/prisma";
 
 import {
@@ -125,6 +126,7 @@ export const authOptions: AuthOptions = {
       if (token) {
         session.user.id = token?.id;
         session.user.name = token?.name;
+        session.user.screen_name = token?.screen_name;
         session.user.email = token?.email;
         session.user.role = token?.role;
         session.user.username = token?.screen_name;
@@ -137,8 +139,12 @@ export const authOptions: AuthOptions = {
     },
 
     async jwt({ token, account }) {
-      const dbUser = await prisma.user.findFirst({
+      const dbUser: any = await prisma.user.findFirst({
         where: { email: token?.email },
+
+        include: {
+          reservations: true,
+        },
       });
 
       if (!dbUser) {
@@ -147,51 +153,41 @@ export const authOptions: AuthOptions = {
 
       const provider = account?.provider || token?.provider;
 
+      const { allowedName } = getAllowedUsername(dbUser);
+
+      const detail = {
+        id: dbUser.id,
+        name: dbUser.name,
+        screen_name: allowedName,
+        email: dbUser.email,
+        role: dbUser.role,
+        username: allowedName,
+        provider: account?.provider || token?.provider,
+        evm_address: dbUser.evm_address,
+        profile_image_url: dbUser.profile_image_url,
+      };
+
       switch (provider) {
         case "google":
           return {
-            id: dbUser.id,
-            name: dbUser.name,
+            ...detail,
             email: dbUser.google_email,
-            role: dbUser.role,
             username: dbUser.google_username,
-            provider,
-            evm_address: dbUser.evm_address,
-            profile_image_url: dbUser.profile_image_url,
           };
         case "discord":
           return {
-            id: dbUser.id,
-            name: dbUser.name,
+            ...detail,
             email: dbUser.discord_email,
-            role: dbUser.role,
             username: dbUser.discord_username,
-            provider,
-            evm_address: dbUser.evm_address,
-            profile_image_url: dbUser.profile_image_url,
           };
         case "twitter":
           return {
-            id: dbUser.id,
-            name: dbUser.name,
+            ...detail,
             email: dbUser.twitter_email,
-            role: dbUser.role,
             username: dbUser.twitter_username,
-            provider,
-            evm_address: dbUser.evm_address,
-            profile_image_url: dbUser.profile_image_url,
           };
         default:
-          return {
-            id: dbUser.id,
-            name: dbUser.name,
-            email: dbUser.email,
-            role: dbUser.role,
-            username: dbUser.screen_name,
-            provider: account?.provider || token?.provider,
-            evm_address: dbUser.evm_address,
-            profile_image_url: dbUser.profile_image_url,
-          };
+          return detail;
       }
     },
   },
