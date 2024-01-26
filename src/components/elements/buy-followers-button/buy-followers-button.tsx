@@ -5,8 +5,8 @@ import { useState } from "react";
 
 import { Modal } from "@/components/elements/modal";
 import { useJoinTwitter } from "@/features/auth";
+import { BuyfollowersModal } from "@/features/people";
 
-import { BuyfollowersModal } from "./buy-followers-modal";
 import styles from "./styles/buy-followers-button.module.scss";
 
 export const BuyFollowersButton = ({
