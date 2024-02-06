@@ -1,0 +1,31 @@
+.container {
+  background-color: var(--clr-background);
+  border: 1px solid var(--clr-border);
+  border-radius: 10px;
+  padding: 1em 0.8em;
+
+  .title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 0.5em;
+
+    h2 {
+      font-size: var(--fs-h3);
+      font-weight: var(--fw-700);
+    }
+  }
+
+  .description {
+    font-size: var(--fs-nano);
+    color: var(--clr-tertiary);
+    margin-bottom: 0.8em;
+  }
+
+  .buttons {
+    display: grid;
+    padding: 0.8em 0;
+    gap: 0.8em;
+  }
+}

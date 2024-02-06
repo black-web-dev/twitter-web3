@@ -1,0 +1,140 @@
+@use "./abstracts/media-query" as *;
+@use "./abstracts/tooltips" as *;
+
+.container {
+  height: 100%;
+  width: 100%;
+  max-height: 100dvh;
+  background-color: var(--clr-background);
+  display: grid;
+  grid-template-rows: auto 1fr;
+  overflow: auto;
+
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 500px;
+    margin-inline: auto;
+    padding: 0.6em;
+
+    .close {
+      border-radius: 100vmax;
+      padding: 0.5em;
+      display: grid;
+      place-content: center;
+      cursor: pointer;
+      @include tooltip(bottom, 2px);
+      transition: background 0.2s ease-in-out;
+
+      &:hover {
+        background-color: var(--clr-nav-hover);
+      }
+
+      &:active {
+        background-color: var(--clr-nav-active);
+      }
+
+      &:focus-visible {
+        outline: 2px solid var(--clr-secondary);
+        background-color: var(--clr-nav-hover);
+      }
+
+      svg {
+        width: var(--fs-h2);
+        height: var(--fs-h2);
+        fill: var(--clr-secondary);
+      }
+    }
+
+    .placeholder {
+      width: var(--fs-kilo);
+      height: var(--fs-kilo);
+    }
+  }
+
+  .wrapper {
+    margin-inline: auto;
+    padding: 1.25em;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .content {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+
+      .avatar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .address {
+        font-size: var(--fs-large);
+        font-weight: var(--fw-500);
+        text-align: center;
+        padding: 1rem 0;
+      }
+
+      .balance {
+        font-size: var(--fs-h2);
+        font-weight: var(--fw-500);
+        color: var(--clr-tertiary);
+        text-align: center;
+        padding: 1rem 0;
+      }
+
+      .sign {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        row-gap: 20px;
+        border: 1px solid var(--clr-border);
+        border-radius: 0.5rem;
+        padding: 1.5em 1em;
+
+        .warning {
+          font-size: var(--fs-micro);
+          text-align: center;
+        }
+      }
+
+      .errorMessage {
+        width: 100%;
+        font-size: var(--fs-milli);
+        font-weight: var(--fw-700);
+        padding: 1em 0.6em;
+        border-radius: 0.5rem;
+        font-size: var(--fs-nano);
+        background-color: rgb(241, 60, 60);
+        color: white;
+        margin-top: 1rem;
+        text-align: center;
+      }
+
+      .actions {
+        display: flex;
+        justify-content: center;
+        column-gap: 5px;
+        padding-top: 1rem;
+      }
+    }
+  }
+
+  @include mq("medium") {
+    width: 350px;
+    height: fit-content;
+    border-radius: 1rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+  }
+}

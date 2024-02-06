@@ -1,0 +1,41 @@
+.container {
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+  font-size: var(--fs-pico);
+
+  .input {
+    position: relative;
+    height: 20px;
+    width: 20px;
+    cursor: pointer;
+    background-color: white;
+    border-radius: 9999px;
+    border: 2px;
+
+    &:checked {
+      background-color: var(--clr-primary);
+
+      &:after {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        content: "";
+      }
+    }
+
+    &:disabled {
+      cursor: not-allowed;
+    }
+  }
+
+  .label {
+    width: 100%;
+    cursor: pointer;
+    padding: 12px;
+
+    &.disabled {
+      cursor: not-allowed;
+    }
+  }
+}
